@@ -798,6 +798,7 @@
             write(LuOut,9120) '=================='
             call util_flush(LuOut)
         endif
+        !------------------------------------------------------------
         if (multipole.gt.1) then
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,*)
@@ -810,6 +811,7 @@
               call util_flush(LuOut)
           endif
         endif
+        !------------------------------------------------------------
         if (multipole.gt.2) then
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,*)
@@ -822,6 +824,7 @@
               call util_flush(LuOut)
           endif
         endif
+        !------------------------------------------------------------
         cpu = cpu + util_cpusec()
         wall = wall + util_wallsec()
         dipole_scf_t = dsqrt( dipole_scf(1)*dipole_scf(1) +
@@ -859,8 +862,13 @@
           call util_flush(LuOut)
         endif
         !
+        !------------------------------------------------------------
         ! dipole
+        !------------------------------------------------------------
         !
+        !-------------------------------------------
+        ! create 3 dipole files
+        !-------------------------------------------
         do axis = 1, 3
           irrep_d=sym_abelian_axis(geom,axis)
           call sym_irrepname(geom,irrep_d+1,irrepname)
@@ -875,17 +883,26 @@
             write(LuOut,9010) 'dipole',trim(filename)
           endif
         enddo
+        !-------------------------------------------
+        ! calculate / read dipole MO matrix elements
+        !-------------------------------------------
         if (.not.read_integrals(3)) then
+          !-------------------------------------------
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,*)
               write(LuOut,9120) '==== tce_mod1 ===='
               call util_flush(LuOut)
           endif
+          !-------------------------------------------
+          ! calculate MO dipole matrix
+          !-------------------------------------------
           call tce_mod1(g_aod1,d_d1)
+          !-------------------------------------------
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,9120) '=================='
               call util_flush(LuOut)
           endif
+          !-------------------------------------------
           if (save_integrals(3)) then
             if(nodezero) then
               write(LuOut,*) 'Saving dipole integrals now...'
@@ -896,6 +913,7 @@
      &             size_d1(axis),axis,handle_d1(axis),irrep_d)
             enddo
           endif
+          !-------------------------------------------
         elseif (read_integrals(3)) then
           if(nodezero) then
             write(LuOut,*) 'Reading in dipole integrals now...'
@@ -908,14 +926,21 @@
      &           size_d1(axis),axis,handle_d1(axis),irrep_d)
           enddo
         endif
+        !---------------------------------------------
         do axis = 1, 3
           call gatoeaf(d_d1(axis))
         enddo
+        !---------------------------------------------
         call util_flush(LuOut)
+        !------------------------------------------------------------
         !
+        !------------------------------------------------------------
         ! quadrupole
-        !
+        !------------------------------------------------------------
         if (multipole.gt.1) then
+          !-------------------------------------------
+          ! create 6 dipole files
+          !-------------------------------------------
           do axis = 1, 6
             irrep_d=sym_abelian_axis(geom,axis+3)
             call sym_irrepname(geom,irrep_d+1,irrepname)
@@ -931,6 +956,9 @@
               write(LuOut,9010) 'quadrupole',trim(filename)
             endif
           enddo
+          !-------------------------------------------
+          ! calculate / read dipole MO matrix elements
+          !-------------------------------------------
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,*)
               write(LuOut,9120) '==== tce_moq1 ===='
@@ -946,10 +974,15 @@
           enddo
         endif ! quadrupole
         call util_flush(LuOut)
+        !------------------------------------------------------------
         !
+        !------------------------------------------------------------
         ! octupole
-        !
+        !------------------------------------------------------------
         if (multipole.gt.2) then
+          !-------------------------------------------
+          ! create 6 dipole files
+          !-------------------------------------------
           do axis = 1, 10
             irrep_d=sym_abelian_axis(geom,axis+9)
             call sym_irrepname(geom,irrep_d+1,irrepname)
@@ -965,21 +998,28 @@
               write(LuOut,9010) 'octupole',trim(filename)
             endif
           enddo
+          !-------------------------------------------
+          ! calculate / read dipole MO matrix elements
+          !-------------------------------------------
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,*)
               write(LuOut,9120) '==== tce_moo1 ===='
               call util_flush(LuOut)
           endif
+          !-------------------------------------------
           call tce_moo1(g_aoo1,d_o1)
+          !-------------------------------------------
           if (nodezero.and.util_print('multipole',print_debug)) then
               write(LuOut,9120) '=================='
               call util_flush(LuOut)
           endif
+          !-------------------------------------------
           do axis = 1, 10
             call gatoeaf(d_o1(axis))
           enddo
         endif ! octupole
         call util_flush(LuOut)
+        !------------------------------------------------------------
 !!
 !!       new dipole integrals - never finished
 !!       (save the hnd_mtpole2 reference in case useful later)
@@ -2572,6 +2612,7 @@
           call ga_sync()
          end if
 ! ==============
+         write(*,*) "JJ: before ccsd_lambda"
   320    continue
 ! -------------
 ! CCSD    left

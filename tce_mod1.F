@@ -77,9 +77,13 @@
      1          dbl_mb(k_work),range_g1,
      2          dbl_mb(k_movecs_sorted+offset_g2),nbf,
      3          0.0d0,dbl_mb(k_mod1+sf_offset),range_g1)
-              if (nodezero.and.util_print('mod1',print_debug))
-     1          call ma_print(dbl_mb(k_mod1+sf_offset),
-     2          range_g1,range_g2,'Spin symmetry block of dipole')
+              if (nodezero.and.util_print('mod1',print_debug)) then
+                write(*,"(A)") "==============================="
+                write(*,"(A,I2)") "JJ: MO integral: ",axis
+                write(*,"(A)") "==============================="
+                call ma_print(dbl_mb(k_mod1+sf_offset),
+     1          range_g1,range_g2,'Spin symmetry block of dipole')
+              endif
               if (.not.ma_pop_stack(l_work))
      1          call errquit('tce_mod1: MA problem',5,MA_ERR)
               sf_offset = sf_offset + range_g1 * range_g2
@@ -179,9 +183,13 @@
      1          dbl_mb(k_work),range_g1,
      2          dbl_mb(k_movecs_sorted+offset_g2),nbf,
      3          0.0d0,dbl_mb(k_moq1+sf_offset),range_g1)
-              if (nodezero.and.util_print('moq1',print_debug))
-     1          call ma_print(dbl_mb(k_moq1+sf_offset),
-     2          range_g1,range_g2,'Spin symmetry block of quadrupole')
+              if (nodezero.and.util_print('moq1',print_debug)) then
+                write(*,"(A)") "==============================="
+                write(*,"(A,I2)") "JJ: MO integral: ",axis
+                write(*,"(A)") "==============================="
+                call ma_print(dbl_mb(k_moq1+sf_offset),
+     1          range_g1,range_g2,'Spin symmetry block of quadrupole')
+              endif
               if (.not.ma_pop_stack(l_work))
      1          call errquit('tce_moq1: MA problem',5,MA_ERR)
               sf_offset = sf_offset + range_g1 * range_g2
@@ -282,9 +290,13 @@
      1          dbl_mb(k_work),range_g1,
      2          dbl_mb(k_movecs_sorted+offset_g2),nbf,
      3          0.0d0,dbl_mb(k_moo1+sf_offset),range_g1)
-              if (nodezero.and.util_print('moo1',print_debug))
-     1          call ma_print(dbl_mb(k_moo1+sf_offset),
-     2          range_g1,range_g2,'Spin symmetry block of octupole')
+              if (nodezero.and.util_print('moo1',print_debug)) then
+                write(*,"(A)") "==============================="
+                write(*,"(A,I2)") "JJ: MO integral: ",axis
+                write(*,"(A)") "==============================="
+                call ma_print(dbl_mb(k_moo1+sf_offset),
+     1          range_g1,range_g2,'Spin symmetry block of octupole')
+              endif
               if (.not.ma_pop_stack(l_work))
      1          call errquit('tce_moo1: MA problem',5,MA_ERR)
               sf_offset = sf_offset + range_g1 * range_g2
