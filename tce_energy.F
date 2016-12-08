@@ -2612,25 +2612,13 @@
           call ga_sync()
          end if
 ! ==============
-         write(*,*) "JJ: before ccsd_lambda"
   320    continue
 ! -------------
 ! CCSD    left
 ! -------------
         if (left) then
         ! JJ
-!         call ccsd_lambda(
-!    1           d_f1,d_v2,d_d1,d_q1,d_o1,
-!    2           d_t1,d_t2,d_lambda1,d_lambda2,
-!    3           k_f1_offset,k_v2_offset,
-!    4           k_d1_offset,k_q1_offset,k_o1_offset,
-!    5           k_t1_offset,k_t2_offset,
-!    6           k_l1_offset,k_l2_offset,
-!    7           size_l1,size_l2,
-!    8           dipole_scf,    dipole_cor,
-!    9           quadrupole_scf,quadrupole_cor,
-!    1           octupole_scf,  octupole_cor)
-
+         write(*,*) "JJ: before ccsd_lambda"
           call ccsd_lambda(d_d0,d_f1,d_v2,d_d1,d_t1,d_t2,
      1         d_lambda1,d_lambda2,
      2         k_d0_offset,k_f1_offset,k_v2_offset,k_d1_offset,
